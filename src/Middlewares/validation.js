@@ -1,5 +1,5 @@
 const { body } = require('express-validator');
-const validationStringContainNumbers = require('../Helpers/validationStringContainNumbers');
+const validationStringContainNumbers = require('../Helpers/validation-string-contain-numbers');
 
 const validations = () => {
   return [
