@@ -32,7 +32,7 @@ const login = async (req = request, res = response) => {
 
 const getUsers = async (req = request, res = response) => {
   try {
-    const { name, lastName, telephone, direction, dni, email } = req.query;
+    const { name, lastName, phone, dni, email } = req.query;
     let termsUser = {};
 
     if (name) {
