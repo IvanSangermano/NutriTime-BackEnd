@@ -4,16 +4,46 @@ const PermissionSchema = Schema({
   addUser: {
     type: Boolean,
   },
-  mdifyUser: {
+  modifyUser: {
     type: Boolean,
   },
   deleteUser: {
     type: Boolean,
   },
-  addHeight: {
+  addHealth: {
+    type: Boolean,
+  },  
+  modifyHealth: {
     type: Boolean,
   },
-  addweight: {
+  deleteHealth: {
+    type: Boolean,
+  },
+  addExcercises: {
+    type: Boolean,
+  },
+  modifyExcercises: {
+    type: Boolean,
+  },
+  deleteExcercises: {
+    type: Boolean,
+  },
+  addRoutines: {
+    type: Boolean,
+  },
+  modifyRoutines: {
+    type: Boolean,
+  },
+  deleteRoutines: {
+    type: Boolean,
+  },
+  addSuscription: {
+    type: Boolean,
+  },
+  modifySuscription: {
+    type: Boolean,
+  },
+  deleteSuscription: {
     type: Boolean,
   },
 });

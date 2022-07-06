@@ -25,9 +25,9 @@ const UserSchema = Schema({
     type: String,
     required: [true, 'Password is required'],
   },
-  healthId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Health',
+  status: {
+    type: Boolean,
+    required: [true, 'status is required'],
   },
 });
 

@@ -5,9 +5,9 @@ const SubscriptionSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  status: {
-    type: Boolean,
-    required: [true, 'status is required'],
+  day: {
+    type: Date,
+    required: [true, `Day is required`]
   },
 });
 

@@ -5,9 +5,13 @@ const RoutineSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  duration: {
-    type: String,
-    required: [true, 'duration is required'],
+  breakDuration: {
+    type: Array,
+    required: [true, 'Break duration is required'],
+  },
+  exercisesDuration: {
+    type: Array,
+    required: [true, 'Exercise duration is required'],
   },
   exercises: {
     type: Array,
