@@ -17,6 +17,9 @@ const HealthSchema = Schema({
   sex: {
     type: String,
   },
+  day: {
+    type: Date,
+  }
 });
 
 module.exports = model('Health', HealthSchema);
