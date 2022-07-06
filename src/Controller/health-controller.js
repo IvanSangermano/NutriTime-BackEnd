@@ -1,33 +1,22 @@
 const { request, response } = require('express');
 const Health = require('../Model/health');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const getHealths = async (req = request, res = response) => {
   try {
-    const { userId, height, weight, age, sex } = req.query;
+    const { userId, day} = req.query;
     let termsHealth = {};
 
     if (userId) {
-      const regex = new RegExp(user, 'i');
-      termsHealth.user = { $regex: regex };
+      const regex = new RegExp(userId, 'i');
+      termsHealth.userId = { $regex: regex };
     }
-    if (height) {
-      const regex = new RegExp(height, 'i');
-      termsHealth.height = { $regex: regex };
+
+    if (day) {
+      const regex = new RegExp(day, 'i');
+      termsHealth.day = { $regex: regex };
     }
-    if (weight) {
-      const regex = new RegExp(weight, 'i');
-      termsHealth.weight = { $regex: regex };
-    }
-    if (age) {
-      const regex = new RegExp(age, 'i');
-      termsHealth.age = { $regex: regex };
-    }
-    if (sex) {
-      const regex = new RegExp(sex, 'i');
-      termsHealth.sex = { $regex: regex };
-    }
+
     const healths = await Health.find(termsHealth);
     res.send(healths);
   } catch (error) {

@@ -1,9 +1,9 @@
 const { body } = require('express-validator');
 const validationStringContainNumbers = require('../Helpers/validation-string-contain-numbers');
 
-const validations = () => {
+const healthValidations = () => {
   return [
-    body('user', 'User is required').notEmpty().isString().trim(),
+    body('userId', 'User is required').notEmpty().isString().trim(),
     body('height', 'Height is required').notEmpty().isString().trim().custom(validationStringContainNumbers),
     body('weight', 'Weight is required')
       .notEmpty()
@@ -19,4 +19,4 @@ const validations = () => {
   ];
 };
 
-module.exports = validations;
+module.exports = healthValidations;
