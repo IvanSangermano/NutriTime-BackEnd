@@ -5,11 +5,11 @@ const ExerciseSchema = Schema({
     type: String,
     required: [true, 'Name is required'],
   },
-  duration: {
+  area: {
     type: String,
     required: [true, 'duration is required'],
   },
-  set: {
+  expecifyMuscle: {
     type: String,
     required: [true, 'Set is required'],
   },
