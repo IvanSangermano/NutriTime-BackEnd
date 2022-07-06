@@ -1,7 +1,5 @@
 const { request, response } = require('express');
 const Exercise = require('../Model/exercise');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const getExercises = async (req = request, res = response) => {
   try {
@@ -44,7 +42,7 @@ const getExercise = async (req = request, res = response) => {
   }
 };
 
-const postExcercise = async (req = request, res = response) => {
+const postExercise = async (req = request, res = response) => {
   try {
     const exercise = new Exercise(req.body);
     const exerciseExist = await Exercise.findOne(exercise);
@@ -69,7 +67,12 @@ const putExercise = async (req = request, res = response) => {
     const exerciseId = req.params.id;
     let exercise = req.body;
 
-    const exerciseExist = await Exercise.findOne(exerciseId);
+    const exerciseExist = await Exercise.findOne({
+      name: req.body.name,
+      duration: req.body.duration,
+      set: req.body.set,
+      _id: { $ne: exerciseId },
+    });
 
     if (exerciseExist) {
       return res.status(400).json({ error: 'Error, existing Exercise' });
@@ -104,7 +107,7 @@ const deleteExercise = async (req = request, res = response) => {
 module.exports = {
   getExercises,
   getExercise,
-  postExcercise,
+  postExercise,
   putExercise,
   deleteExercise,
 };
