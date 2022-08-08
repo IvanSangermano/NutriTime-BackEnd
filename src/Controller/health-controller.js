@@ -8,13 +8,13 @@ const getHealths = async (req = request, res = response) => {
     let termsHealth = {};
 
     if (userId) {
-      const regex = new RegExp(userId, 'i');
-      termsHealth.userId = { $regex: regex };
+      termsHealth.userId = userId
     }
-
     if (day) {
-      const regex = new RegExp(day, 'i');
-      termsHealth.day = { $regex: regex };
+      const initialDate = new Date(day)
+      const FinalDate = new Date(day)
+      FinalDate.setDate(FinalDate.getDate()+1)
+      termsHealth.day = {$gte:initialDate, $lt:FinalDate}
     }
 
     const healths = await Health.find(termsHealth);
