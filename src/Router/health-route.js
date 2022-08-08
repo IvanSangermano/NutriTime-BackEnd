@@ -15,8 +15,9 @@ const router = Router();
 router.get(
   '/',
   [
-    query('userId').isString().trim(),
-    query('day').isString().trim()
+    query('userId').optional().isMongoId().trim(),
+    query('day').optional().isString().trim(),
+    fieldValidation
   ],
   getHealths
 );
