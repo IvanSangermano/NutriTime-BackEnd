@@ -14,6 +14,7 @@ const seeder = async () => {
   user.lastName = 'Messi';
   user.phone = '1231231231';
   user.dni = '12312323';
+  user.status = true;
   user.password = await bcrypt.hash(pwd, 12);
 
   await user.save();
