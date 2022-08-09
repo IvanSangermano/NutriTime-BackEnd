@@ -62,7 +62,7 @@ const putEventMember = async (req = request, res = response) => {
     const eventMemberId = req.params.id;
     let eventMember = req.body;
 
-    eventMember = await eventMember.findByIdAndUpdate(
+    eventMember = await EventMember.findByIdAndUpdate(
       eventMemberId,
       eventMember,
       {
