@@ -8,7 +8,7 @@ const {
   deleteUser,
   login,
 } = require('../Controller/user-controller');
-const validations = require('../Middlewares/validation');
+const validations = require('../Middlewares/user-validation');
 const loginValidations = require('../Middlewares/login-validation');
 const fieldValidation = require('../Middlewares/field-validation');
 const isLoggedIn = require('../Middlewares/is-logged-in');
@@ -21,6 +21,7 @@ router.get(
     query('lastName').isString().trim(),
     query('phone').isString().trim(),
     query('dni').isString().trim(),
+    query('status').isBoolean()
   ],
   getUsers
 );

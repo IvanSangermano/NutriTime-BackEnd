@@ -32,7 +32,7 @@ const login = async (req = request, res = response) => {
 
 const getUsers = async (req = request, res = response) => {
   try {
-    const { name, lastName, phone, dni, email } = req.query;
+    const { name, lastName, phone, dni, email, status } = req.query;
     let termsUser = {};
 
     if (name) {
@@ -54,6 +54,9 @@ const getUsers = async (req = request, res = response) => {
     if (email) {
       const regex = new RegExp(email, 'i');
       termsUser.email = { $regex: regex };
+    }
+    if (status) {
+      termsUser.email = status
     }
 
     const users = await User.find(termsUser);

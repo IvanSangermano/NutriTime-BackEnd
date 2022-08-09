@@ -1,6 +1,5 @@
 const { request, response } = require('express');
 const Health = require('../Model/health');
-const jwt = require('jsonwebtoken');
 
 const getHealths = async (req = request, res = response) => {
   try {
