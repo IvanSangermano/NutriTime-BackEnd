@@ -55,6 +55,7 @@ const getUsers = async (req = request, res = response) => {
       const regex = new RegExp(email, 'i');
       termsUser.email = { $regex: regex };
     }
+
     const users = await User.find(termsUser);
     res.send(users);
   } catch (error) {
