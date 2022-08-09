@@ -1,34 +1,35 @@
-const { request, response } = require('express');
-const WorkoutEvent = require('../Model/workout-event');
-
 const getWorkoutEvent = async (req = request, res = response) => {
   try {
     const { name, places, duration, location, theme, members } = req.query;
-    let termsUser = {};
+    let termsWorkoutEvent = {};
 
     if (name) {
       const regex = new RegExp(name, 'i');
-      termsUser.name = { $regex: regex };
+      termsWorkoutEvent.name = { $regex: regex };
     }
-    if (lastName) {
-      const regex = new RegExp(lastName, 'i');
-      termsUser.lastName = { $regex: regex };
+    if (places) {
+      const regex = new RegExp(places, 'i');
+      termsWorkoutEvent.places = { $regex: regex };
     }
-    if (phone) {
-      const regex = new RegExp(phone, 'i');
-      termsUser.phone = { $regex: regex };
+    if (duration) {
+      const regex = new RegExp(duration, 'i');
+      termsWorkoutEvent.duration = { $regex: regex };
     }
-    if (dni) {
-      const regex = new RegExp(dni, 'i');
-      termsUser.dni = { $regex: regex };
+    if (location) {
+      const regex = new RegExp(location, 'i');
+      termsWorkoutEvent.location = { $regex: regex };
     }
-    if (email) {
-      const regex = new RegExp(email, 'i');
-      termsUser.email = { $regex: regex };
+    if (theme) {
+      const regex = new RegExp(theme, 'i');
+      termsWorkoutEvent.theme = { $regex: regex };
+    }
+    if (members) {
+      const regex = new RegExp(members, 'i');
+      termsWorkoutEvent.members = { $regex: regex };
     }
 
-    const users = await User.find(termsUser);
-    res.send(users);
+    const workoutEvent = await User.find(termsWorkoutEvent);
+    res.send(workoutEvent);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
     console.log(error);
