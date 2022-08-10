@@ -3,11 +3,11 @@ const Post = require('../Model/post');
 
 const getPosts = async (req = request, res = response) => {
   try {
-    const { userId } = req.query;
+    const { name } = req.query;
     let termPost = {};
 
-    if (userId) {
-      termPost.name = userId;
+    if (name) {
+      termPost.name = name;
     }
 
     const posts = await Post.find(termPost);
