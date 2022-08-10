@@ -17,14 +17,14 @@ router.get(
   [
     query('userId').optional().isMongoId().trim(),
     query('day').optional().isString().trim(),
-    fieldValidation
+    fieldValidation,
   ],
   getHealths
 );
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getHealth);
 
-router.post('/',  [validationsHealth, fieldValidation], isLoggedIn, postHealth);
+router.post('/', [validationsHealth, fieldValidation], isLoggedIn, postHealth);
 
 router.put(
   '/:id',
