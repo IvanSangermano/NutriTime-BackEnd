@@ -7,7 +7,7 @@ const {
   putHealth,
   deleteHealth,
 } = require('../Controller/health-controller');
-const validationsHealth = require('../Middlewares/health-validation');
+const healthValidations = require('../Middlewares/health-validation');
 const fieldValidation = require('../Middlewares/field-validation');
 const isLoggedIn = require('../Middlewares/is-logged-in');
 const router = Router();
@@ -24,11 +24,11 @@ router.get(
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getHealth);
 
-router.post('/',  [validationsHealth, fieldValidation], isLoggedIn, postHealth);
+router.post('/',  [healthValidations(), fieldValidation], isLoggedIn, postHealth);
 
 router.put(
   '/:id',
-  [param('id').isMongoId(), validationsHealth(), fieldValidation],
+  [param('id').isMongoId(), healthValidations(), fieldValidation],
   isLoggedIn,
   putHealth
 );

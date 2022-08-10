@@ -19,7 +19,7 @@ const getPermission = async (req = request, res = response) => {
 const postPermission = async (req = request, res = response) => {
   try {
     const permission = new Permission(req.body);
-    await health.save();
+    await permission.save();
     res.status(201).json({ message: 'Permission added successfully', data: permission });
     }
    catch (error) {
@@ -37,7 +37,7 @@ const putPermission = async (req = request, res = response) => {
       });
     
     if (permission) {
-      res.json({ data: permission });
+      res.json({message: 'Permission modify successfully', data: permission });
     } else {
       res.status(404).json({ error: 'Permission doesn´t exist' });
     }

@@ -43,12 +43,12 @@ const postHealth = async (req = request, res = response) => {
   try {
     const health = new Health(req.body);
     const healthExist = await Health.findOne({
-        userId: req.body.userId,
+      userId: req.body.userId,
       day: req.body.day,
     });
     if (healthExist) {
       res.status(400).json({
-        error: 'Error, existing user',
+        error: 'Error, existing Health',
       });
     } else {
       await health.save();
@@ -79,7 +79,7 @@ const putHealth = async (req = request, res = response) => {
       });
     }
     if (health) {
-      res.json({ data: health });
+      res.json({ message: 'Health modify successfully', data: health });
     } else {
       res.status(404).json({ error: 'health doesn´t exist' });
     }
