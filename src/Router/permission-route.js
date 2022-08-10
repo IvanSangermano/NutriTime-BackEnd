@@ -13,7 +13,7 @@ const router = Router();
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getPermission);
 
-router.post('/',  [validationsPermission, fieldValidation], isLoggedIn, postPermission);
+router.post('/',  [validationsPermission(), fieldValidation], isLoggedIn, postPermission);
 
 router.put(
   '/:id',

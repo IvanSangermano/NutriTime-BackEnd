@@ -12,6 +12,8 @@ const routerHealth = require('./Router/health-route');
 const routerEventMembers = require('./Router/event-member-route');
 const routerPermission = require('./Router/permission-route');
 const routerWorkoutEvent = require('./Router/workout-event-route');
+const routerPost = require('./Router/post-route');
+
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -25,6 +27,7 @@ app.use('/exercises', routerExercises);
 app.use('/eventmembers', routerEventMembers);
 app.use('/permission', routerPermission);
 app.use('/workoutevents', routerWorkoutEvent);
+app.use('/post', routerPost);
 
 app.listen(port, async () => {
   console.log(`Server running on http://localhost:${port}`);
