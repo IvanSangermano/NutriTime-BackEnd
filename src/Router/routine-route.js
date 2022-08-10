@@ -3,7 +3,7 @@ const { Router } = require('express');
 const {
   getRoutine,
   getRoutines,
-  postExercise,
+  postRoutine,
   putRoutine,
   deleteRoutine,
 } = require('../Controller/routine-controller');
@@ -22,9 +22,9 @@ router.get('/:id', [param('id').isMongoId(), fieldValidation], getRoutine);
 
 router.post(
   '/',
-  [routineValidations, fieldValidation],
+  [routineValidations(), fieldValidation],
   isLoggedIn,
-  postExercise
+  postRoutine
 );
 
 router.put(

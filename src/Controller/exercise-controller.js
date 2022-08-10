@@ -3,20 +3,20 @@ const Exercise = require('../Model/exercise');
 
 const getExercises = async (req = request, res = response) => {
   try {
-    const { name, duration, set } = req.query;
+    const { name, area, expecifyMuscle } = req.query;
     let termsExercise = {};
 
     if (name) {
       const regex = new RegExp(name, 'i');
       termsExercise.name = { $regex: regex };
     }
-    if (duration) {
-      const regex = new RegExp(duration, 'i');
-      termsExercise.duration = { $regex: regex };
+    if (area) {
+      const regex = new RegExp(area, 'i');
+      termsExercise.area = { $regex: regex };
     }
-    if (set) {
-      const regex = new RegExp(set, 'i');
-      termsExercise.set = { $regex: regex };
+    if (expecifyMuscle) {
+      const regex = new RegExp(expecifyMuscle, 'i');
+      termsExercise.expecifyMuscle = { $regex: regex };
     }
 
     const exercises = await Exercise.find(termsExercise);
@@ -69,8 +69,8 @@ const putExercise = async (req = request, res = response) => {
 
     const exerciseExist = await Exercise.findOne({
       name: req.body.name,
-      duration: req.body.duration,
-      set: req.body.set,
+      area: req.body.area,
+      expecifyMuscle: req.body.expecifyMuscle,
       _id: { $ne: exerciseId },
     });
 
