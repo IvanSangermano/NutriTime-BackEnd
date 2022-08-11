@@ -24,11 +24,7 @@ router.get(
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getHealth);
 
-<<<<<<< HEAD
 router.post('/',  [healthValidations(), fieldValidation], isLoggedIn, postHealth);
-=======
-router.post('/', [validationsHealth, fieldValidation], isLoggedIn, postHealth);
->>>>>>> routine
 
 router.put(
   '/:id',

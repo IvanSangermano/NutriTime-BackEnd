@@ -7,13 +7,11 @@ const exerciseRoutineValidations = () => {
     body('breakDuration', 'Break Duration is required')
       .notEmpty()
       .isString()
-      .trim()
-      .validationStringContainNumbers(),
+      .trim().custom(validationStringContainNumbers),
     body('duration', 'Duration is required')
       .notEmpty()
       .isString()
-      .trim()
-      .validationStringContainNumbers(),
+      .trim().custom(validationStringContainNumbers),
     body('exercise', 'Exercise is Required').isArray(),
   ];
 };
