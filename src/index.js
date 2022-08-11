@@ -14,6 +14,8 @@ const routerPermission = require('./Router/permission-route');
 const routerWorkoutEvent = require('./Router/workout-event-route');
 const routerPost = require('./Router/post-route');
 const routerRole = require('./Router/role-route');
+const routerRoutine = require('./Router/routine-route');
+const routerExerciseRoutine = require('./Router/exercise-routine-route');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -27,6 +29,9 @@ app.use('/exercises', routerExercises);
 app.use('/eventmembers', routerEventMembers);
 app.use('/permission', routerPermission);
 app.use('/workoutevents', routerWorkoutEvent);
+app.use('/routines', routerRoutine);
+app.use('/exerciseroutines', routerExerciseRoutine);
+
 app.use('/post', routerPost);
 app.use('/role', routerRole);
 
