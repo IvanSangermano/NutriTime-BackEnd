@@ -13,6 +13,7 @@ const routerEventMembers = require('./Router/event-member-route');
 const routerPermission = require('./Router/permission-route');
 const routerWorkoutEvent = require('./Router/workout-event-route');
 const routerRoutine = require('./Router/routine-route');
+const routerExerciseRoutine = require('./Router/exercise-routine-route');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -27,6 +28,7 @@ app.use('/eventmembers', routerEventMembers);
 app.use('/permission', routerPermission);
 app.use('/workoutevents', routerWorkoutEvent);
 app.use('/routines', routerRoutine);
+app.use('/exerciseroutines', routerExerciseRoutine);
 
 app.listen(port, async () => {
   console.log(`Server running on http://localhost:${port}`);

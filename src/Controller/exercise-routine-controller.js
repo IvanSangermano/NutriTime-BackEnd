@@ -7,8 +7,7 @@ const getExerciseRoutine = async (req = request, res = response) => {
     let termsExerciseRoutine = {};
 
     if (routineId) {
-      const regex = new RegExp(name, 'i');
-      termsExerciseRoutine.name = { $regex: regex };
+      termsExerciseRoutine.routineId = routineId;
     }
     if (breakDuration) {
       const regex = new RegExp(breakDuration, 'i');
