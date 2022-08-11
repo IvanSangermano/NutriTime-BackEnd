@@ -24,12 +24,16 @@ router.get(
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getHealth);
 
+<<<<<<< HEAD
 router.post(
   '/',
   [healthValidations(), fieldValidation],
   isLoggedIn,
   postHealth
 );
+=======
+router.post('/',  [healthValidations(), fieldValidation], isLoggedIn, postHealth);
+>>>>>>> 645c5cf7ecc87674794e467b07aa39faa6b1705d
 
 router.put(
   '/:id',
