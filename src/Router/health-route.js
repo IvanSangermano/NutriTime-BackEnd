@@ -17,6 +17,7 @@ router.get(
   [
     query('userId').optional().isMongoId().trim(),
     query('day').optional().isString().trim(),
+    query('macroCheck').optional().isBoolean(),
     fieldValidation,
   ],
   getHealths

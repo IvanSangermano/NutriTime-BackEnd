@@ -3,7 +3,7 @@ const Health = require('../Model/health');
 
 const getHealths = async (req = request, res = response) => {
   try {
-    const { userId, day} = req.query;
+    const { userId, day, macroCheck} = req.query;
     let termsHealth = {};
 
     if (userId) {
@@ -14,6 +14,9 @@ const getHealths = async (req = request, res = response) => {
       const FinalDate = new Date(day)
       FinalDate.setDate(FinalDate.getDate()+1)
       termsHealth.day = {$gte:initialDate, $lt:FinalDate}
+    }
+    if(macroCheck){
+      termsHealth.macroCheck = macroCheck
     }
 
     const healths = await Health.find(termsHealth);
