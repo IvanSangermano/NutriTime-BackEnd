@@ -25,6 +25,11 @@ const UserSchema = Schema({
     type: String,
     required: [true, 'Password is required'],
   },
+  permissionRole: {
+    type: Schema.Types.String,
+    ref: 'Permission',
+    required: [true, 'Permission required']
+  },
   status: {
     type: Boolean,
     required: [true, 'status is required'],

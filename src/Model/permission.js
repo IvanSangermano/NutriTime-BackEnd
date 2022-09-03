@@ -1,6 +1,9 @@
 const { Schema, model } = require('mongoose');
 
 const PermissionSchema = Schema({
+  role:{
+    type: String,
+  },
   addUser: {
     type: Boolean,
   },
