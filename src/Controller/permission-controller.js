@@ -1,6 +1,25 @@
 const { request, response } = require('express');
 const Permission = require('../Model/permission');
 
+
+const getPermissions = async (req = request, res = response) => {
+  try {
+    const { role  } = req.query;
+    let termsPermission = {};
+
+    if (role) {
+      const regex = new RegExp(role, 'i');
+      termsPermission.rol = { $regex: regex };
+    }
+
+    const permissions = await Permission.find(termsPermission);
+    res.send(permissions);
+  } catch (error) {
+    res.status(500).json({ error: 'An error has occurred' });
+    console.log(error);
+  }
+};
+
 const getPermission = async (req = request, res = response) => {
   try {
     const permissionId = req.params.id;
@@ -19,8 +38,18 @@ const getPermission = async (req = request, res = response) => {
 const postPermission = async (req = request, res = response) => {
   try {
     const permission = new Permission(req.body);
-    await permission.save();
-    res.status(201).json({ message: 'Permission added successfully', data: permission });
+
+    const permissionExist = await Permission.findOne({
+      role: req.body.role,
+    });
+    if (permissionExist) {
+      res.status(400).json({
+        error: 'Error, existing permission',
+      });
+    } else {
+      await permission.save();
+      res.status(201).json({ message: 'Permission added successfully', data: permission });
+      }
     }
    catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -62,7 +91,7 @@ const deletePermission = async (req = request, res = response) => {
 };
 
 module.exports = {
-  getPermission,
+  getPermissions,
   getPermission,
   postPermission,
   putPermission,

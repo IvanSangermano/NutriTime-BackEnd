@@ -17,6 +17,7 @@ const validations = () => {
       .custom(validationStringContainNumbers),
     body('email', 'Email is required').notEmpty().isEmail().trim(),
     body('password', 'Password is required').notEmpty().isString().trim(),
+    body('permissionId', 'Permission is required').notEmpty().isString().trim(),
     body('status', 'Status is required').notEmpty().isBoolean()
   ];
 };

@@ -28,7 +28,7 @@ router.get(
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getUser);
 
-router.post('/', [...validations(), fieldValidation], isLoggedIn, postUser);
+router.post('/',[...validations(), fieldValidation], isLoggedIn, postUser);
 
 router.put(
   '/:id',

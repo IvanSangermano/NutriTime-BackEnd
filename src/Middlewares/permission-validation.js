@@ -2,6 +2,7 @@ const { body } = require('express-validator');
 
 const permissionValidations = () => {
   return [
+    body('role').notEmpty().isString().trim(),
     body('addUser').isBoolean(),
     body('modifyUser').isBoolean(),
     body('deleteUser').isBoolean(),
