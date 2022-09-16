@@ -34,17 +34,18 @@ const HealthSchema = Schema({
 HealthSchema.virtual('imc').get(function() {
   const imc = Number(this.weight) / (Number(this.height)^2)
   return imc
-  }); 
+}); 
   
 HealthSchema.virtual('macros').get(function() {
   if(this.macroCheck){ 
     let macros = {}
     let tmbWhitoutActivity = null
-    if(this.sex === 'male'){
+    
+    if(this.sex === 'Male'){
       tmbWhitoutActivity = (10*this.weight + 6.25*this.weight + 5*this.age + 5)
 
       //MACROS HOMBRE VOLUMEN
-      if (this.stage === 'volume'){
+      if (this.stage === 'Volume'){
         macros = {
           tmb: (tmbWhitoutActivity*this.activity),
           carbohydrates: (((tmbWhitoutActivity*this.activity)*0.55)/4),
@@ -53,7 +54,7 @@ HealthSchema.virtual('macros').get(function() {
         }
       }
       //MACROS HOMBRE DEFINICION
-      if (this.stage === 'definition'){
+      if (this.stage === 'Definition'){
         macros = {
           tmb: (tmbWhitoutActivity*this.activity),
           carbohydrates: (((tmbWhitoutActivity*this.activity)*0.40)/4),
@@ -62,11 +63,11 @@ HealthSchema.virtual('macros').get(function() {
        }
       }
     }
-    if(this.sex === 'female'){
+    if(this.sex === 'Female'){
       tmbWhitoutActivity = (20*this.weight + 6.25*this.weight + 5*this.age - 161)
 
       //MACROS MUJER VOLUMEN
-      if (this.stage === 'volume'){
+      if (this.stage === 'Volume'){
         macros = {
           tmb: (tmbWhitoutActivity*this.activity),
           carbohydrates: (((tmbWhitoutActivity*this.activity)*0.55)/4),
@@ -75,7 +76,7 @@ HealthSchema.virtual('macros').get(function() {
         }
       }
       //MACROS MUJER DEFINICION
-      if (this.stage === 'definition'){
+      if (this.stage === 'Definition'){
         macros = {
           tmb: (tmbWhitoutActivity*this.activity),
           carbohydrates: (((tmbWhitoutActivity*this.activity)*0.40)/4),

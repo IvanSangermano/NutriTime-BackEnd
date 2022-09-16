@@ -19,7 +19,7 @@ const getHealths = async (req = request, res = response) => {
       termsHealth.macroCheck = macroCheck
     }
 
-    const healths = await Health.find(termsHealth);
+    const healths = await Health.find(termsHealth).populate("userId");
     res.send(healths);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -54,6 +54,11 @@ const postHealth = async (req = request, res = response) => {
         error: 'Error, existing Health',
       });
     } else {
+      if(health.macroCheck == false)
+      {
+        health.stage = null
+        health.activity = null
+      }
       await health.save();
       res.status(201).json({ message: 'Health added successfully', data: health });
     }
@@ -77,6 +82,11 @@ const putHealth = async (req = request, res = response) => {
         error: 'Error, existing health',
       });
     } else {
+        if(health.macroCheck == false)
+        {
+          health.stage = null
+          health.activity = null
+        }
         health = await Health.findByIdAndUpdate(healthId, health, {
         new: true,
       });

@@ -4,7 +4,7 @@ const validationStringContainNumbersAndComma = require('../Helpers/validationStr
 
 const healthValidations = () => {
   return [
-    body('userId', 'User is required').notEmpty().isString().trim(),
+    body('userId._id', 'User is required').notEmpty().isString().trim(),
     body('height', 'Height is required').notEmpty().isString().trim().custom(validationStringContainNumbersAndComma),
     body('weight', 'Weight is required')
       .notEmpty()
@@ -17,6 +17,7 @@ const healthValidations = () => {
       .trim()
       .custom(validationStringContainNumbers),
     body('sex', 'Sex is required').notEmpty().isString().trim(),
+    body('day', 'Day is required').notEmpty().isString(),
     oneOf([
       body('macroCheck').equals('false').isBoolean(),
       body('stage', 'Stage is required').isString(),
