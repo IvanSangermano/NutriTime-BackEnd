@@ -3,14 +3,14 @@ const Post = require('../Model/post');
 
 const getPosts = async (req = request, res = response) => {
   try {
-    const { name } = req.query;
+    const { type } = req.query;
     let termPost = {};
 
-    if (name) {
-      termPost.name = name;
+    if (type) {
+      termPost.type = type;
     }
 
-    const posts = await Post.find(termPost);
+    const posts = await Post.find(termPost).populate("userId");
     res.send(posts);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -66,7 +66,6 @@ const putPost = async (req = request, res = response) => {
         userId : req.body.userId,
         date : req.body.date,
         description : req.body.description,
-        likes : req.body.likes,
         type : req.body.type,
         _id: { $ne: postId },
     });
@@ -75,7 +74,7 @@ const putPost = async (req = request, res = response) => {
         error: 'Error, existing post',
       });
     } else {
-      user = await User.findByIdAndUpdate(postId, post, {
+      post = await Post.findByIdAndUpdate(postId, post, {
         new: true,
       });
     }
