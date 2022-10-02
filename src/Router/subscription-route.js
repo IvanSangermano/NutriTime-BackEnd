@@ -1,13 +1,13 @@
 const { query, param } = require('express-validator');
 const { Router } = require('express');
 const {
-  getHealths,
-  getHealth,
-  postHealth,
-  putHealth,
-  deleteHealth,
-} = require('../Controller/health-controller');
-const healthValidations = require('../Middlewares/health-validation');
+  getSubscriptions,
+  getSubscription,
+  postSubscription,
+  putSubscription,
+  deleteSubscription,
+} = require('../Controller/subscription-controller');
+const subscriptionValidations = require('../Middlewares/subscription-validation');
 const fieldValidation = require('../Middlewares/field-validation');
 const isLoggedIn = require('../Middlewares/is-logged-in');
 const router = Router();
@@ -16,34 +16,32 @@ router.get(
   '/',
   [
     query('userId').optional().isMongoId().trim(),
-    query('day').optional().isString().trim(),
-    query('macroCheck').optional().isBoolean(),
     fieldValidation,
   ],
-  getHealths
+  getSubscriptions
 );
 
-router.get('/:id', [param('id').isMongoId(), fieldValidation], getHealth);
+router.get('/:id', [param('id').isMongoId(), fieldValidation], getSubscription);
 
 router.post(
   '/',
-  [healthValidations(), fieldValidation],
+  [subscriptionValidations(), fieldValidation],
   isLoggedIn,
-  postHealth
+  postSubscription
 );
 
 router.put(
   '/:id',
-  [param('id').isMongoId(), healthValidations(), fieldValidation],
+  [param('id').isMongoId(), subscriptionValidations(), fieldValidation],
   isLoggedIn,
-  putHealth
+  putSubscription
 );
 
 router.delete(
   '/:id',
   [param('id').isMongoId(), fieldValidation],
   isLoggedIn,
-  deleteHealth
+  deleteSubscription
 );
 
 module.exports = router;
