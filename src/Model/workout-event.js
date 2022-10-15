@@ -7,24 +7,28 @@ const WorkoutEventSchema = Schema({
   },
   places: {
     type: String,
-    required: [true, 'places is required'],
+    required: [true, 'Places is required'],
   },
   duration: {
     type: String,
-    required: [true, 'duration is required'],
+    required: [true, 'Duration is required'],
   },
   location: {
     type: String,
-    required: [true, 'location is required'],
+    required: [true, 'Location is required'],
   },
-  theme: {
+  day: {
     type: String,
-    required: [true, 'theme is required'],
+    required: [true, 'Day is required'],
   },
-  members: {
-    type: Array,
-    required: [true, 'members is required'],
+  hour: {
+    type: String,
+    required: [true, 'Hour is required'],
   },
+  classroom: {
+    type: String,
+    required: [true, 'Classroom is required'],
+  }
 });
 
 module.exports = model('WorkoutEvent', WorkoutEventSchema);

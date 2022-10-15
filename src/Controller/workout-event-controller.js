@@ -3,7 +3,7 @@ const WorkoutEvent = require('../Model/workout-event');
 
 const getWorkoutEvents = async (req = request, res = response) => {
   try {
-    const { name, places, duration, location, theme, members } = req.query;
+    const { name, places, duration, location, classroom, day, hour } = req.query;
     let termsWorkoutEvent = {};
 
     if (name) {
@@ -22,13 +22,17 @@ const getWorkoutEvents = async (req = request, res = response) => {
       const regex = new RegExp(location, 'i');
       termsWorkoutEvent.location = { $regex: regex };
     }
-    if (theme) {
-      const regex = new RegExp(theme, 'i');
-      termsWorkoutEvent.theme = { $regex: regex };
+    if (classroom) {
+      const regex = new RegExp(classroom, 'i');
+      termsWorkoutEvent.classroom = { $regex: regex };
     }
-    if (members) {
-      const regex = new RegExp(members, 'i');
-      termsWorkoutEvent.members = { $regex: regex };
+    if (day) {
+      const regex = new RegExp(day, 'i');
+      termsWorkoutEvent.day = { $regex: regex };
+    }
+    if (hour) {
+      const regex = new RegExp(hour, 'i');
+      termsWorkoutEvent.hour = { $regex: regex };
     }
 
     const workoutEvent = await WorkoutEvent.find(termsWorkoutEvent);
@@ -57,8 +61,12 @@ const getWorkoutEvent = async (req = request, res = response) => {
 const postWorkoutEvent = async (req = request, res = response) => {
   try {
     const workoutEvent = new WorkoutEvent(req.body);
-    const workoutEventExist = await WorkoutEvent.findOne(workoutEvent);
-
+    const workoutEventExist = await WorkoutEvent.findOne({
+      location: req.body.location,
+      day: req.body.day,
+      hour: req.body.hour,
+      classroom: req.body.classroom,
+    });
     if (workoutEventExist) {
       res.status(400).json({
         error: 'Error, existing Workout Event',
@@ -81,10 +89,10 @@ const putWorkoutEvent = async (req = request, res = response) => {
     let workoutEvent = req.body;
 
     const workoutEventExist = await WorkoutEvent.findOne({
-      name: req.body.name,
       location: req.body.location,
-      theme: req.body.theme,
-      places: req.body.places,
+      day: req.body.day,
+      hour: req.body.hour,
+      classroom: req.body.classroom,
     });
     if (workoutEventExist) {
       return res.status(400).json({
