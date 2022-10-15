@@ -10,7 +10,7 @@ const seeder = async () => {
 
   const user = new User();
   user.email = 'user@mail.com';
-  user.name = 'John';
+  user.name = 'Lionel';
   user.lastName = 'Messi';
   user.phone = '1231231231';
   user.dni = '12312323';
