@@ -8,12 +8,12 @@ const exerciseRoutineValidations = () => {
       .notEmpty()
       .isString()
       .trim()
-      .validationStringContainNumbers(),
+      .custom(validationStringContainNumbers),
     body('duration', 'Duration is required')
       .notEmpty()
       .isString()
       .trim()
-      .validationStringContainNumbers(),
+      .custom(validationStringContainNumbers),
     body('exercise', 'Exercise is Required').isArray(),
   ];
 };
