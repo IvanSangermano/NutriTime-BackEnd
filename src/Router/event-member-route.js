@@ -23,13 +23,6 @@ router.post(
   postEventMember
 );
 
-router.put(
-  '/:id',
-  [param('id').isMongoId(), ...eventMemberValidations(), fieldValidation],
-  isLoggedIn,
-  putEventMember
-);
-
 router.delete(
   '/:id',
   [param('id').isMongoId(), fieldValidation],

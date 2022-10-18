@@ -10,15 +10,13 @@ const getEventMembers = async (req = request, res = response) => {
       termsEventMember.userId = userId;
     }
     if (workoutEvent) {
-      const regex = new RegExp(workoutEvent, 'i');
-      termsEventMember.workoutEvent = { $regex: regex };
-    }
+      termsEventMember.workoutEvent = workoutEvent;
+    } 
+    const eventMember = await EventMember.find(termsEventMember);
+    res.send(eventMember);
   } catch (error) {
     res.status(500).json({ error: 'An error has ocurred' });
   }
-
-  const eventMember = await EventMember.find(termsEventMember);
-  res.send(eventMember);
 };
 
 const getEventMember = async (req = request, res = response) => {
@@ -39,7 +37,10 @@ const getEventMember = async (req = request, res = response) => {
 const postEventMember = async (req = request, res = response) => {
   try {
     const eventMember = new EventMember(req.body);
-    const eventMemberExist = await EventMember.findOne(eventMember);
+    const eventMemberExist = await EventMember.findOne({
+      userId: req.body.userId,
+      workoutEvent: req.body.workoutEvent,
+    });
 
     if (eventMemberExist) {
       res.status(400).json({
@@ -49,34 +50,11 @@ const postEventMember = async (req = request, res = response) => {
       await eventMember.save();
       res.status(201).json({
         message: 'Event Member added successfully',
-        data: eventMember,
+        data: eventMember
       });
     }
   } catch (error) {
     res.status(500).json({ error: 'An error has ocurred' });
-  }
-};
-
-const putEventMember = async (req = request, res = response) => {
-  try {
-    const eventMemberId = req.params.id;
-    let eventMember = req.body;
-
-    eventMember = await EventMember.findByIdAndUpdate(
-      eventMemberId,
-      eventMember,
-      {
-        new: true,
-      }
-    );
-
-    if (eventMember) {
-      res.json({ data: eventMember });
-    } else {
-      res.status(404).json({ error: 'Event Member doesn´t exist' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'An error has occurred' });
   }
 };
 
@@ -100,6 +78,5 @@ module.exports = {
   getEventMember,
   getEventMembers,
   postEventMember,
-  putEventMember,
   deleteEventMember,
 };
