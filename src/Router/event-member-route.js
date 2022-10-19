@@ -4,7 +4,7 @@ const {
   getEventMember,
   getEventMembers,
   postEventMember,
-  putEventMember,
+  getEventMembersListOfParticipants,
   deleteEventMember,
 } = require('../Controller/event-member-controller');
 const eventMemberValidations = require('../Middlewares/event-member-Validation');
@@ -12,7 +12,16 @@ const fieldValidation = require('../Middlewares/field-validation');
 const isLoggedIn = require('../Middlewares/is-logged-in');
 const router = Router();
 
-router.get('/', [query('workoutEvent').isString().trim()], getEventMembers);
+router.get('/', 
+[
+  query('workoutEvent').isMongoId(),
+  query('userId').isMongoId()
+], getEventMembers);
+
+router.get('/list', 
+[
+  query('workoutEvent').isMongoId(),
+], getEventMembersListOfParticipants);
 
 router.get('/:id', [param('id').isMongoId(), fieldValidation], getEventMember);
 

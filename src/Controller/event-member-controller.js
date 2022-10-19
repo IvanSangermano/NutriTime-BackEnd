@@ -19,6 +19,21 @@ const getEventMembers = async (req = request, res = response) => {
   }
 };
 
+const getEventMembersListOfParticipants = async (req = request, res = response) => {
+  try {
+    const { workoutEvent } = req.query;
+    let termsEventMember = {};
+
+    if (workoutEvent) {
+      termsEventMember.workoutEvent = workoutEvent;
+    } 
+    const eventMember = await EventMember.find(termsEventMember).populate("userId");
+    res.send(eventMember);
+  } catch (error) {
+    res.status(500).json({ error: 'An error has ocurred' });
+  }
+};
+
 const getEventMember = async (req = request, res = response) => {
   try {
     const eventMemberId = req.params.id;
@@ -78,5 +93,6 @@ module.exports = {
   getEventMember,
   getEventMembers,
   postEventMember,
+  getEventMembersListOfParticipants,
   deleteEventMember,
 };
