@@ -10,6 +10,7 @@ const workoutEventValidations = () => {
     body('startHour', 'Start hour is required').notEmpty().isString(),
     body('finalHour', 'Final hour is required').notEmpty().isString().trim(),
     body('classroom', 'Classroom is required').notEmpty().isInt(),
+    body('placesOccupied', 'Places occupied is required').notEmpty().isInt(),
   ];
 };
 

@@ -4,16 +4,12 @@ const WorkoutEvent = require('../Model/workout-event');
 
 const getWorkoutEvents = async (req = request, res = response) => {
   try {
-    const { name, places, location, day, startHour, finalHour, classroom } = req.query;
+    const { name, location, day, startHour, finalHour, classroom } = req.query;
     let termsWorkoutEvent = {};
 
     if (name) {
       const regex = new RegExp(name, 'i');
       termsWorkoutEvent.name = { $regex: regex };
-    }
-    if (places) {
-      const regex = new RegExp(places, 'i');
-      termsWorkoutEvent.places = { $regex: regex };
     }
     if (location) {
       const regex = new RegExp(location, 'i');
@@ -122,6 +118,7 @@ const putWorkoutEvent = async (req = request, res = response) => {
 
     let workoutEventInHourExist = false;
     let workoutEventHourFinishHigherStart = false;
+    let workoutEventOcuppiedIsHigherPlaces = false;
 
     const workoutEventInClassRoomAndDay = await WorkoutEvent.find({
       location: req.body.location,
@@ -152,23 +149,33 @@ const putWorkoutEvent = async (req = request, res = response) => {
     if (workoutEvent.startHour >= workoutEvent.finalHour) {
       workoutEventHourFinishHigherStart = true
     }
+    if (workoutEvent.places < workoutEvent.placesOccupied) {
+      workoutEventOcuppiedIsHigherPlaces = true
+    }
 
-    if (workoutEventInHourExist) {
+    if (workoutEventOcuppiedIsHigherPlaces) {
       return res.status(400).json({
-        error: 'Error, there is already a workout event at that time',
+        error: 'Error, the places have to be greater than the places that are occupied',
       });
     } else {
-      if (workoutEventHourFinishHigherStart) {
+      if (workoutEventInHourExist) {
         return res.status(400).json({
-          error: 'Error, the start time must be greater than the end time',
+          error: 'Error, there is already a workout event at that time',
         });
       } else {
-          workoutEvent = await WorkoutEvent.findByIdAndUpdate(
-          workoutEventId,
-          workoutEvent, 
-          {new: true,}
-        );
-    }}
+        if (workoutEventHourFinishHigherStart) {
+          return res.status(400).json({
+            error: 'Error, the start time must be greater than the end time',
+          });
+        } else {
+            workoutEvent = await WorkoutEvent.findByIdAndUpdate(
+            workoutEventId,
+            workoutEvent, 
+            {new: true,}
+          );
+      }}
+    }
+
     if (workoutEvent) {
       res.json({ message: 'Workout event modify successfully', data: workoutEvent });
     } else {

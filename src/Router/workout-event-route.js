@@ -16,7 +16,6 @@ router.get(
   '/',
   [
     query('name').isString().trim(),
-    query('places').isString().trim(),
     query('location').isString().trim(),
     query('day').isString().trim(),
     query('startHour').isString().trim(),

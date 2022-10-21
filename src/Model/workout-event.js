@@ -28,6 +28,10 @@ const WorkoutEventSchema = Schema({
   classroom: {
     type: String,
     required: [true, 'Classroom is required'],
+  },
+  placesOccupied: {
+    type: String,
+    required: [true, 'Places occupied is required'],
   }
 });
 
