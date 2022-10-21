@@ -9,10 +9,6 @@ const WorkoutEventSchema = Schema({
     type: String,
     required: [true, 'Places is required'],
   },
-  duration: {
-    type: String,
-    required: [true, 'Duration is required'],
-  },
   location: {
     type: String,
     required: [true, 'Location is required'],
@@ -21,9 +17,13 @@ const WorkoutEventSchema = Schema({
     type: String,
     required: [true, 'Day is required'],
   },
-  hour: {
+  startHour: {
     type: String,
-    required: [true, 'Hour is required'],
+    required: [true, 'Start hour is required'],
+  },
+  finalHour: {
+    type: String,
+    required: [true, 'Final hour is required'],
   },
   classroom: {
     type: String,

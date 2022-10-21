@@ -1,9 +1,10 @@
 const { request, response } = require('express');
+const validationStringBetweenTwoHours = require('../Helpers/validationStringBetweenTwoHours');
 const WorkoutEvent = require('../Model/workout-event');
 
 const getWorkoutEvents = async (req = request, res = response) => {
   try {
-    const { name, places, duration, location, classroom, day, hour } = req.query;
+    const { name, places, location, day, startHour, finalHour, classroom } = req.query;
     let termsWorkoutEvent = {};
 
     if (name) {
@@ -14,27 +15,27 @@ const getWorkoutEvents = async (req = request, res = response) => {
       const regex = new RegExp(places, 'i');
       termsWorkoutEvent.places = { $regex: regex };
     }
-    if (duration) {
-      const regex = new RegExp(duration, 'i');
-      termsWorkoutEvent.duration = { $regex: regex };
-    }
     if (location) {
       const regex = new RegExp(location, 'i');
       termsWorkoutEvent.location = { $regex: regex };
-    }
-    if (classroom) {
-      const regex = new RegExp(classroom, 'i');
-      termsWorkoutEvent.classroom = { $regex: regex };
     }
     if (day) {
       const regex = new RegExp(day, 'i');
       termsWorkoutEvent.day = { $regex: regex };
     }
-    if (hour) {
-      const regex = new RegExp(hour, 'i');
-      termsWorkoutEvent.hour = { $regex: regex };
+    if (startHour) {
+      const regex = new RegExp(startHour, 'i');
+      termsWorkoutEvent.startHour = { $regex: regex };
     }
-
+    if (finalHour) {
+      const regex = new RegExp(finalHour, 'i');
+      termsWorkoutEvent.finalHour = { $regex: regex };
+    }
+    if (classroom) {
+      const regex = new RegExp(classroom, 'i');
+      termsWorkoutEvent.classroom = { $regex: regex };
+    }
+    
     const workoutEvent = await WorkoutEvent.find(termsWorkoutEvent);
     res.send(workoutEvent);
   } catch (error) {
@@ -61,22 +62,53 @@ const getWorkoutEvent = async (req = request, res = response) => {
 const postWorkoutEvent = async (req = request, res = response) => {
   try {
     const workoutEvent = new WorkoutEvent(req.body);
-    const workoutEventExist = await WorkoutEvent.findOne({
+    let workoutEventInHourExist = false;
+    let workoutEventHourFinishHigherStart = false;
+
+    const workoutEventInClassRoomAndDay = await WorkoutEvent.find({
       location: req.body.location,
       day: req.body.day,
-      hour: req.body.hour,
       classroom: req.body.classroom,
-    });
-    if (workoutEventExist) {
+    })
+    if (!!workoutEventInClassRoomAndDay.length) {
+      workoutEventInHourExist = true;
+      for (let i = 0; i < workoutEventInClassRoomAndDay.length; i++) {
+        if((workoutEvent.startHour < workoutEventInClassRoomAndDay[i].startHour) 
+        && (workoutEvent.finalHour <= workoutEventInClassRoomAndDay[i].startHour))
+        {
+          workoutEventInHourExist = false;
+        } else{
+          if((workoutEvent.startHour >= workoutEventInClassRoomAndDay[i].finalHour) 
+          && (workoutEvent.finalHour > workoutEventInClassRoomAndDay[i].finalHour))
+          {
+            workoutEventInHourExist = false;
+          } else{
+            workoutEventInHourExist = true;
+            break;
+          }
+        }
+      }
+    }
+    if (workoutEvent.startHour >= workoutEvent.finalHour) {
+      workoutEventHourFinishHigherStart = true
+    }
+
+    if (workoutEventInHourExist) {
       res.status(400).json({
-        error: 'Error, existing Workout Event',
+        error: 'Error, there is already a workout event at that time',
       });
     } else {
-      await workoutEvent.save();
-      res.status(201).json({
-        message: 'Workout Event added successfully',
-        data: workoutEvent,
-      });
+      if (workoutEventHourFinishHigherStart) {
+        res.status(400).json({
+          error: 'Error, the start time must be greater than the end time',
+        });
+      } else {
+        await workoutEvent.save();
+        res.status(201).json({
+          message: 'Workout Event added successfully',
+          data: workoutEvent,
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({ error: 'An error has ocurred' });
@@ -88,29 +120,59 @@ const putWorkoutEvent = async (req = request, res = response) => {
     const workoutEventId = req.params.id;
     let workoutEvent = req.body;
 
-    const workoutEventExist = await WorkoutEvent.findOne({
+    let workoutEventInHourExist = false;
+    let workoutEventHourFinishHigherStart = false;
+
+    const workoutEventInClassRoomAndDay = await WorkoutEvent.find({
       location: req.body.location,
       day: req.body.day,
-      hour: req.body.hour,
       classroom: req.body.classroom,
+      _id: { $ne: workoutEventId }
     });
-    if (workoutEventExist) {
+
+    if (!!workoutEventInClassRoomAndDay.length) {
+      workoutEventInHourExist = true;
+      for (let i = 0; i < workoutEventInClassRoomAndDay.length; i++) {
+        if((workoutEvent.startHour < workoutEventInClassRoomAndDay[i].startHour) 
+        && (workoutEvent.finalHour <= workoutEventInClassRoomAndDay[i].startHour))
+        {
+          workoutEventInHourExist = false;
+        } else{
+          if((workoutEvent.startHour >= workoutEventInClassRoomAndDay[i].finalHour) 
+          && (workoutEvent.finalHour > workoutEventInClassRoomAndDay[i].finalHour))
+          {
+            workoutEventInHourExist = false;
+          } else{
+            workoutEventInHourExist = true;
+            break;
+          }
+        }
+      }
+    }
+    if (workoutEvent.startHour >= workoutEvent.finalHour) {
+      workoutEventHourFinishHigherStart = true
+    }
+
+    if (workoutEventInHourExist) {
       return res.status(400).json({
-        error: 'Error, existing workout Event',
+        error: 'Error, there is already a workout event at that time',
       });
     } else {
-      workoutEvent = await WorkoutEvent.findByIdAndUpdate(
-        workoutEventId,
-        workoutEvent,
-        {
-          new: true,
-        }
-      );
-    }
+      if (workoutEventHourFinishHigherStart) {
+        return res.status(400).json({
+          error: 'Error, the start time must be greater than the end time',
+        });
+      } else {
+          workoutEvent = await WorkoutEvent.findByIdAndUpdate(
+          workoutEventId,
+          workoutEvent, 
+          {new: true,}
+        );
+    }}
     if (workoutEvent) {
-      res.json({ data: workoutEvent });
+      res.json({ message: 'Workout event modify successfully', data: workoutEvent });
     } else {
-      res.status(404).json({ error: 'Work Event doesn´t exist' });
+      res.status(404).json({ error: 'workout event doesn´t exist' });
     }
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });

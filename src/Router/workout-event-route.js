@@ -17,10 +17,10 @@ router.get(
   [
     query('name').isString().trim(),
     query('places').isString().trim(),
-    query('duration').isString().trim(),
     query('location').isString().trim(),
     query('day').isString().trim(),
-    query('hour').isString().trim(),
+    query('startHour').isString().trim(),
+    query('finalHour').isString().trim(),
     query('classroom').isString().trim()
   ],
   getWorkoutEvents
