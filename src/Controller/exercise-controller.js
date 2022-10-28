@@ -45,7 +45,11 @@ const getExercise = async (req = request, res = response) => {
 const postExercise = async (req = request, res = response) => {
   try {
     const exercise = new Exercise(req.body);
-    const exerciseExist = await Exercise.findOne(exercise);
+    const exerciseExist = await Exercise.findOne({
+      name: req.body.name,
+      area: req.body.area,
+      expecifyMuscle: req.body.expecifyMuscle,
+    })
 
     if (exerciseExist) {
       res.status(400).json({

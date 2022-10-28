@@ -1,10 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const ExerciseRoutineSchema = Schema({
-  routineId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Routine',
-  },
   breakDuration: {
     type: String,
     required: [true, 'Break duration is required'],
@@ -13,7 +9,7 @@ const ExerciseRoutineSchema = Schema({
     type: String,
     required: [true, 'Exercise duration is required'],
   },
-  exercise: {
+  exerciseId: {
     type: Schema.Types.ObjectId,
     ref: 'Exercise',
   },

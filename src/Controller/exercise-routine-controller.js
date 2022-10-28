@@ -1,24 +1,22 @@
 const { request, response } = require('express');
 const ExerciseRoutine = require('../Model/exercise-routine');
 
-const getExerciseRoutine = async (req = request, res = response) => {
+const getExerciseRoutines = async (req = request, res = response) => {
   try {
-    const { routineId, breakDuration, duration } = req.query;
+    const { breakDuration, duration, exerciseId } = req.query;
     let termsExerciseRoutine = {};
 
-    if (routineId) {
-      termsExerciseRoutine.routineId = routineId;
-    }
     if (breakDuration) {
-      const regex = new RegExp(breakDuration, 'i');
-      termsExerciseRoutine.breakDuration = { $regex: regex };
+      termsExerciseRoutine.breakDuration = breakDuration
     }
     if (duration) {
-      const regex = new RegExp(duration, 'i');
-      termsExerciseRoutine.duration = { $regex: regex };
+      termsExerciseRoutine.duration = duration
+    }
+    if (exerciseId) {
+      termsExerciseRoutine.exerciseId = exerciseId
     }
 
-    const exerciseRoutine = await Exercise.find(termsExerciseRoutine);
+    const exerciseRoutine = await ExerciseRoutine.find(termsExerciseRoutine);
     res.send(exerciseRoutine);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -26,7 +24,7 @@ const getExerciseRoutine = async (req = request, res = response) => {
   }
 };
 
-const getExerciseRoutines = async (req = request, res = response) => {
+const getExerciseRoutine = async (req = request, res = response) => {
   try {
     const exerciseRoutineId = req.params.id;
     const exerciseRoutine = await ExerciseRoutine.findById(exerciseRoutineId);
@@ -43,17 +41,21 @@ const getExerciseRoutines = async (req = request, res = response) => {
 
 const postExerciseRoutine = async (req = request, res = response) => {
   try {
-    const exerciseRoutine = new ExerciseRoutiner(req.body);
-    const exerciseRoutineExist = await ExerciseRoutiner.findOne(
-      exerciseRoutine
-    );
+    const exerciseRoutine = new ExerciseRoutine(req.body);
+
+    const exerciseRoutineExist = await ExerciseRoutine.findOne({
+      breakDuration: req.body.breakDuration,
+      duration: req.body.duration,
+      exerciseId: req.body.exerciseId
+    });
 
     if (exerciseRoutineExist) {
       res.status(400).json({
         error: 'Error, existing exercise routine',
       });
     } else {
-      await ExerciseRoutiner.save();
+      await exerciseRoutine.save();
+
       res.status(201).json({
         message: 'Exercise routine added successfully',
         data: exerciseRoutine,
@@ -72,10 +74,9 @@ const putExerciseRoutine = async (req = request, res = response) => {
     const exerciseRoutineExist = await ExerciseRoutine.findOne({
       breakDuration: req.body.breakDuration,
       duration: req.body.duration,
-      exercise: req.body.exercise,
+      exerciseId: req.body.exerciseId,
       _id: { $ne: exerciseRoutineId },
     });
-
     if (exerciseRoutineExist) {
       return res
         .status(400)
@@ -102,7 +103,7 @@ const putExerciseRoutine = async (req = request, res = response) => {
 const deleteExerciseRoutine = async (req = request, res = response) => {
   try {
     const exerciseRoutineId = req.params.id;
-    const exerciseRoutine = await Exercise.findByIdAndDelete(exerciseRoutineId);
+    const exerciseRoutine = await ExerciseRoutine.findByIdAndDelete(exerciseRoutineId);
 
     if (exerciseRoutine) {
       res.json({

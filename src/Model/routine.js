@@ -5,10 +5,14 @@ const RoutineSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  exercises: {
+  exerciseRoutineId: {
     type: Schema.Types.ObjectId,
     ref: 'ExerciseRoutine',
   },
+  position: {
+    type: String,
+    required: [true, 'Position is required'],
+  }
 });
 
 module.exports = model('Routine', RoutineSchema);

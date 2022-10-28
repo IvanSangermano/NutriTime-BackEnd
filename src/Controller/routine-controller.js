@@ -3,16 +3,11 @@ const Routine = require('../Model/routine');
 
 const getRoutines = async (req = request, res = response) => {
   try {
-    const { userId, exercises } = req.query;
+    const { userId } = req.query;
     let termsRoutine = {};
 
     if (userId) {
       termsRoutine.userId = userId;
-    }
-
-    if (exercises) {
-      const regex = new RegExp(exercises, 'i');
-      termsRoutine.exercises = { $regex: regex };
     }
 
     const routines = await Routine.find(termsRoutine);
@@ -41,17 +36,18 @@ const getRoutine = async (req = request, res = response) => {
 const postRoutine = async (req = request, res = response) => {
   try {
     const routine = new Routine(req.body);
-    const routineExist = await Routine.findOne(routine);
-
+    const routineExist = await Routine.findOne({
+      userId: req.body.userId,
+      exerciseRoutineId: req.body.exerciseRoutineId,
+      position: req.body.position
+    });
     if (routineExist) {
       res.status(400).json({
         error: 'Error, existing routine',
       });
     } else {
       await routine.save();
-      res
-        .status(201)
-        .json({ message: 'Routine added successfully', data: routine });
+      res.status(201).json({ message: 'Routine added successfully', data: routine });
     }
   } catch (error) {
     console.log(error);
@@ -64,10 +60,19 @@ const putRoutine = async (req = request, res = response) => {
     const routineId = req.params.id;
     let routine = req.body;
 
-    routine = await Routine.findByIdAndUpdate(routineId, routine, {
-      new: true,
+    const routineExist = await Routine.findOne({
+        userId: req.body.userId,
+        exerciseRoutineId: req.body.exerciseRoutineId,
+        position: req.body.position,
+      _id: { $ne: routineId },
     });
-
+    if (routineExist) {
+      return res.status(400).json({
+        error: 'Error, existing routine',
+      });
+    } else {
+      routine = await Routine.findByIdAndUpdate(routineId, routine, {new: true,});
+    }
     if (routine) {
       res.json({ data: routine });
     } else {

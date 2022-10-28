@@ -4,7 +4,8 @@ const validationStringContainNumbers = require('../Helpers/validation-string-con
 const routineValidations = () => {
   return [
     body('userId', 'userId is required').notEmpty().isString().trim(),
-    body('exercises', 'Exercises is required').isArray(),
+    body('exerciseRoutineId', 'Exercise routine ID is required').notEmpty().isString().trim(),
+    body('position', 'Position is required').notEmpty().isInt(),
   ];
 };
 

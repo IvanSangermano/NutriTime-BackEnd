@@ -14,7 +14,12 @@ const router = Router();
 
 router.get(
   '/',
-  [query('routineId').optional().isMongoId().trim(), fieldValidation],
+  [
+    query('breakDuration').optional().isString().trim(), 
+    query('duration').optional().isString().trim(), 
+    query('exerciseId').optional().isMongoId().trim(), 
+    fieldValidation
+  ],
   getExerciseRoutines
 );
 
