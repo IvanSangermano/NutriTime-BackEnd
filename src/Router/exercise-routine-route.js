@@ -15,9 +15,7 @@ const router = Router();
 router.get(
   '/',
   [
-    query('breakDuration').optional().isString().trim(), 
-    query('duration').optional().isString().trim(), 
-    query('exerciseId').optional().isMongoId().trim(), 
+    query('routineId').optional().isMongoId(), 
     fieldValidation
   ],
   getExerciseRoutines

@@ -32,7 +32,6 @@ app.use('/workoutevents', routerWorkoutEvent);
 app.use('/routines', routerRoutine);
 app.use('/exerciseroutines', routerExerciseRoutine);
 app.use('/subscription', routerSubscription);
-
 app.use('/post', routerPost);
 
 app.listen(port, async () => {

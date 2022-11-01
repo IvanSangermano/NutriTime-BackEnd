@@ -3,20 +3,14 @@ const ExerciseRoutine = require('../Model/exercise-routine');
 
 const getExerciseRoutines = async (req = request, res = response) => {
   try {
-    const { breakDuration, duration, exerciseId } = req.query;
+    const { routineId } = req.query;
     let termsExerciseRoutine = {};
 
-    if (breakDuration) {
-      termsExerciseRoutine.breakDuration = breakDuration
-    }
-    if (duration) {
-      termsExerciseRoutine.duration = duration
-    }
-    if (exerciseId) {
-      termsExerciseRoutine.exerciseId = exerciseId
+    if (routineId) {
+      termsExerciseRoutine.routineId = routineId
     }
 
-    const exerciseRoutine = await ExerciseRoutine.find(termsExerciseRoutine);
+    const exerciseRoutine = await ExerciseRoutine.find(termsExerciseRoutine).populate("exerciseId");
     res.send(exerciseRoutine);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -41,25 +35,34 @@ const getExerciseRoutine = async (req = request, res = response) => {
 
 const postExerciseRoutine = async (req = request, res = response) => {
   try {
+    let exerciseIsLowerTo1 = false
     const exerciseRoutine = new ExerciseRoutine(req.body);
-
-    const exerciseRoutineExist = await ExerciseRoutine.findOne({
-      breakDuration: req.body.breakDuration,
-      duration: req.body.duration,
-      exerciseId: req.body.exerciseId
+    const exerciseRoutinePositionExist = await ExerciseRoutine.findOne({
+      routineId: req.body.routineId,
+      position: req.body.position,
+      day: req.body.day,
     });
 
-    if (exerciseRoutineExist) {
+    if(exerciseRoutine.position < 1) {
+      exerciseIsLowerTo1 = true
+    }
+    if (exerciseIsLowerTo1) {
       res.status(400).json({
-        error: 'Error, existing exercise routine',
+        error: 'Error, position is lower to 1',
       });
     } else {
-      await exerciseRoutine.save();
-
-      res.status(201).json({
-        message: 'Exercise routine added successfully',
-        data: exerciseRoutine,
-      });
+      if (exerciseRoutinePositionExist) {
+        res.status(400).json({
+          error: 'Error, existing exercise in routine on this position',
+        });
+      } else {
+        await exerciseRoutine.save();
+  
+        res.status(201).json({
+          message: 'Exercise routine added successfully',
+          data: exerciseRoutine,
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({ error: 'An error has ocurred' });
@@ -70,25 +73,25 @@ const putExerciseRoutine = async (req = request, res = response) => {
   try {
     const exerciseRoutineId = req.params.id;
     let exerciseRoutine = req.body;
-
-    const exerciseRoutineExist = await ExerciseRoutine.findOne({
-      breakDuration: req.body.breakDuration,
-      duration: req.body.duration,
-      exerciseId: req.body.exerciseId,
+    const exerciseRoutinePositionExist = await ExerciseRoutine.findOne({
+      routineId: req.body.routineId,
+      position: req.body.position,
+      day: req.body.day,
       _id: { $ne: exerciseRoutineId },
     });
-    if (exerciseRoutineExist) {
-      return res
-        .status(400)
-        .json({ error: 'Error, existing Exercise routine' });
+
+    if (exerciseRoutinePositionExist) {
+      return res.status(400).json({
+        error: 'Error, existing exercise in routine on this position',
+      });
     } else {
       exerciseRoutine = await ExerciseRoutine.findByIdAndUpdate(
-        exerciseRoutineId,
-        exerciseRoutine,
-        {
-          new: true,
-        }
-      );
+      exerciseRoutineId,
+      exerciseRoutine,
+      {
+        new: true,
+      }
+    );
     }
     if (exerciseRoutine) {
       res.json({ data: exerciseRoutine });

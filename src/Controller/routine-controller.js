@@ -10,7 +10,7 @@ const getRoutines = async (req = request, res = response) => {
       termsRoutine.userId = userId;
     }
 
-    const routines = await Routine.find(termsRoutine);
+    const routines = await Routine.find(termsRoutine).populate("userId");
     res.send(routines);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -21,7 +21,7 @@ const getRoutines = async (req = request, res = response) => {
 const getRoutine = async (req = request, res = response) => {
   try {
     const routineId = req.params.id;
-    const routine = await Routine.findById(routineId);
+    const routine = await Routine.findById(routineId).populate("userId");
 
     if (routine) {
       res.json(routine);
@@ -38,8 +38,6 @@ const postRoutine = async (req = request, res = response) => {
     const routine = new Routine(req.body);
     const routineExist = await Routine.findOne({
       userId: req.body.userId,
-      exerciseRoutineId: req.body.exerciseRoutineId,
-      position: req.body.position
     });
     if (routineExist) {
       res.status(400).json({
@@ -62,8 +60,6 @@ const putRoutine = async (req = request, res = response) => {
 
     const routineExist = await Routine.findOne({
         userId: req.body.userId,
-        exerciseRoutineId: req.body.exerciseRoutineId,
-        position: req.body.position,
       _id: { $ne: routineId },
     });
     if (routineExist) {
@@ -88,7 +84,7 @@ const deleteRoutine = async (req = request, res = response) => {
     const routineId = req.params.id;
     const routine = await Routine.findByIdAndDelete(routineId);
 
-    if (exercise) {
+    if (routine) {
       res.json({ message: 'Routine deleted successfully', data: routine });
     }
   } catch (error) {

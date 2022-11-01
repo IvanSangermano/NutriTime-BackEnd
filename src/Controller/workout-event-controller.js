@@ -1,5 +1,4 @@
 const { request, response } = require('express');
-const validationStringBetweenTwoHours = require('../Helpers/validationStringBetweenTwoHours');
 const WorkoutEvent = require('../Model/workout-event');
 
 const getWorkoutEvents = async (req = request, res = response) => {
