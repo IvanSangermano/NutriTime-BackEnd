@@ -4,6 +4,7 @@ const validationStringContainNumbers = require('../Helpers/validation-string-con
 const routineValidations = () => {
   return [
     body('userId', 'userId is required').notEmpty().isString().trim(),
+    body('name', 'name is required').notEmpty().isString().trim(),
   ];
 };
 
