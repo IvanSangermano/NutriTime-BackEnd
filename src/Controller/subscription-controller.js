@@ -48,7 +48,12 @@ const postSubscription = async (req = request, res = response) => {
       });
     } else {
       await subscription.save();
-      res.status(201).json({ message: 'Subscription added successfully', data: subscription });
+      res.status(201).json({ message: 'Subscription added successfully', data: await Subscription.findOne({
+        userId : req.body.userId,
+        dayOfSubscription : req.body.dayOfSubscription,
+        dayOfExpiration : req.body.dayOfExpiration,
+        typeOfSubscription : req.body.typeOfSubscription
+      }).populate("userId") });;
     }
   } catch (error) {
     console.log(error)
@@ -78,7 +83,12 @@ const putSubscription = async (req = request, res = response) => {
       });
     }
     if (subscription) {
-      res.json({ message: 'Subscription modify successfully', data: subscription });
+      res.json({ message: 'Subscription modify successfully', data: await Subscription.findOne({
+        userId : req.body.userId,
+        dayOfSubscription : req.body.dayOfSubscription,
+        dayOfExpiration : req.body.dayOfExpiration,
+        typeOfSubscription : req.body.typeOfSubscription
+      }).populate("userId") });
     } else {
       res.status(404).json({ error: 'Subscription doesn´t exist' });
     }

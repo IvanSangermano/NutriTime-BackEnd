@@ -60,7 +60,10 @@ const postHealth = async (req = request, res = response) => {
         health.activity = null
       }
       await health.save();
-      res.status(201).json({ message: 'Health added successfully', data: health });
+      res.status(201).json({ message: 'Health added successfully', data: await Health.findOne({
+        userId: req.body.userId,
+        day: req.body.day,
+      }).populate("userId") });
     }
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
@@ -92,7 +95,10 @@ const putHealth = async (req = request, res = response) => {
       });
     }
     if (health) {
-      res.json({ message: 'Health modify successfully', data: health });
+      res.json({ message: 'Health modify successfully', data: await Health.findOne({
+        userId: req.body.userId,
+        day: req.body.day,
+      }).populate("userId") });
     } else {
       res.status(404).json({ error: 'health doesn´t exist' });
     }

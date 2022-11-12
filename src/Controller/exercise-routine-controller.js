@@ -42,7 +42,7 @@ const postExerciseRoutine = async (req = request, res = response) => {
       position: req.body.position,
       day: req.body.day,
     });
-
+    
     if(exerciseRoutine.position < 1) {
       exerciseIsLowerTo1 = true
     }
@@ -56,11 +56,13 @@ const postExerciseRoutine = async (req = request, res = response) => {
           error: 'Error, existing exercise in routine on this position',
         });
       } else {
+        console.log(exerciseRoutine)
         await exerciseRoutine.save();
-  
         res.status(201).json({
           message: 'Exercise routine added successfully',
-          data: exerciseRoutine,
+          data: await ExerciseRoutine.findOne({
+            _id: exerciseRoutine._id
+          }).populate("exerciseId")
         });
       }
     }
@@ -94,7 +96,10 @@ const putExerciseRoutine = async (req = request, res = response) => {
     );
     }
     if (exerciseRoutine) {
-      res.json({ data: exerciseRoutine });
+      res.json({ data: await ExerciseRoutine.findOne({
+        _id: exerciseRoutine._id
+        }).populate("exerciseId")
+      });
     } else {
       res.status(404).json({ error: 'Exercise routine doesn´t exist' });
     }

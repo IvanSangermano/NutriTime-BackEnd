@@ -49,7 +49,13 @@ const postPost = async (req = request, res = response) => {
       });
     } else {
       await post.save();
-      res.status(201).json({ message: 'Post added successfully', data: post });
+      res.status(201).json({ message: 'Post added successfully', data: await Post.findOne({
+        userId : req.body.userId,
+        date : req.body.date,
+        description : req.body.description,
+        likes : req.body.likes,
+        type : req.body.type,
+      }).populate("userId") });
     }
   } catch (error) {
     console.log(error)
@@ -79,7 +85,13 @@ const putPost = async (req = request, res = response) => {
       });
     }
     if (post) {
-      res.json({ message: 'Post modify successfully', data: post });
+      res.json({ message: 'Post modify successfully', data: await Post.findOne({
+        userId : req.body.userId,
+        date : req.body.date,
+        description : req.body.description,
+        likes : req.body.likes,
+        type : req.body.type
+      }).populate("userId") });
     } else {
       res.status(404).json({ error: 'Post doesn´t exist' });
     }

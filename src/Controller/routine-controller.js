@@ -1,4 +1,5 @@
 const { request, response } = require('express');
+const routine = require('../Model/routine');
 const Routine = require('../Model/routine');
 
 const getRoutines = async (req = request, res = response) => {
@@ -53,8 +54,10 @@ const postRoutine = async (req = request, res = response) => {
           error: 'Error, there is a routine with that name',
         });
       } else {
-        await routine.save();
-        res.status(201).json({ message: 'Routine added successfully', data: routine });
+        await routine.save()
+        res.status(201).json({ message: 'Routine added successfully', data: await Routine.findOne({
+          userId: req.body.userId,
+        }).populate("userId")});
       }
     }
   } catch (error) {
@@ -91,7 +94,10 @@ const putRoutine = async (req = request, res = response) => {
       }
     }
     if (routine) {
-      res.json({ data: routine });
+      res.json({data: await Routine.findOne({
+          userId: req.body.userId,
+        }).populate("userId")}
+      );
     } else {
       res.status(404).json({ error: 'Routine doesn´t exist' });
     }
