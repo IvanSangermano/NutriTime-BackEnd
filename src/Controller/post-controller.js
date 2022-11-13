@@ -53,7 +53,6 @@ const postPost = async (req = request, res = response) => {
         userId : req.body.userId,
         date : req.body.date,
         description : req.body.description,
-        likes : req.body.likes,
         type : req.body.type,
       }).populate("userId") });
     }
@@ -89,7 +88,6 @@ const putPost = async (req = request, res = response) => {
         userId : req.body.userId,
         date : req.body.date,
         description : req.body.description,
-        likes : req.body.likes,
         type : req.body.type
       }).populate("userId") });
     } else {

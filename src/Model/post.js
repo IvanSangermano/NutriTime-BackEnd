@@ -13,10 +13,6 @@ const PostSchema = Schema({
     type: String,
     required: [true, 'description is required'],
   },
-  likes: {
-    type: String,
-    required: [true, 'likes is required'],
-  },
   type: {
     type: String,
     required: [true, 'type is required'],
