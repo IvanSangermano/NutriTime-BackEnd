@@ -16,7 +16,6 @@ const getPermissions = async (req = request, res = response) => {
     res.send(permissions);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 
@@ -61,10 +60,21 @@ const putPermission = async (req = request, res = response) => {
     const permissionId = req.params.id;
     let permission = req.body;
 
-    permission = await Permission.findByIdAndUpdate(permissionId, permission, {
+    const permissionExist = await Permission.findOne({
+      role: req.body.role,
+      _id: { $ne: permissionId },
+    });
+
+    if (permissionExist) {
+      return res.status(400).json({
+        error: 'Error, existing permission',
+      });
+    } else {
+      permission = await Permission.findByIdAndUpdate(permissionId, permission, {
         new: true,
       });
-    
+    }
+
     if (permission) {
       res.json({message: 'Permission modify successfully', data: permission });
     } else {

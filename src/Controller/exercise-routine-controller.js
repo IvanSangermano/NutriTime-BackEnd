@@ -14,7 +14,6 @@ const getExerciseRoutines = async (req = request, res = response) => {
     res.send(exerciseRoutine);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 
@@ -56,7 +55,6 @@ const postExerciseRoutine = async (req = request, res = response) => {
           error: 'Error, existing exercise in routine on this position',
         });
       } else {
-        console.log(exerciseRoutine)
         await exerciseRoutine.save();
         res.status(201).json({
           message: 'Exercise routine added successfully',

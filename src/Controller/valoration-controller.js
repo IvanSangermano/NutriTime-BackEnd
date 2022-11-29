@@ -17,7 +17,6 @@ const getValorations = async (req = request, res = response) => {
     res.send(valorations);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 
@@ -52,7 +51,6 @@ const postValoration = async (req = request, res = response) => {
       res.status(201).json({ message: 'Valoration added successfully', data: valoration });
     }
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: 'An error has occurred' });
   }
 };

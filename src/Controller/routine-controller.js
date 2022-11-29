@@ -15,7 +15,6 @@ const getRoutines = async (req = request, res = response) => {
     res.send(routines);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 
@@ -61,7 +60,6 @@ const postRoutine = async (req = request, res = response) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'An error has ocurred' });
   }
 };

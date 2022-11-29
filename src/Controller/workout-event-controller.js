@@ -35,7 +35,6 @@ const getWorkoutEvents = async (req = request, res = response) => {
     res.send(workoutEvent);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 

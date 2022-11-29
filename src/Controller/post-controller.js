@@ -14,7 +14,6 @@ const getPosts = async (req = request, res = response) => {
     res.send(posts);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 
@@ -57,7 +56,6 @@ const postPost = async (req = request, res = response) => {
       }).populate("userId") });
     }
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: 'An error has occurred' });
   }
 };

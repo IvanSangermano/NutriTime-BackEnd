@@ -23,7 +23,6 @@ const getHealths = async (req = request, res = response) => {
     res.send(healths);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 

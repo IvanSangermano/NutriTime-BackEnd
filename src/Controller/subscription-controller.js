@@ -14,7 +14,6 @@ const getSubscriptions = async (req = request, res = response) => {
     res.send(subscriptions);
   } catch (error) {
     res.status(500).json({ error: 'An error has occurred' });
-    console.log(error);
   }
 };
 
@@ -40,7 +39,6 @@ const postSubscription = async (req = request, res = response) => {
         userId : req.body.userId,
         dayOfSubscription : req.body.dayOfSubscription,
         dayOfExpiration : req.body.dayOfExpiration,
-        typeOfSubscription : req.body.typeOfSubscription
     });
     if (subscriptionExist) {
       res.status(400).json({
@@ -56,7 +54,6 @@ const postSubscription = async (req = request, res = response) => {
       }).populate("userId") });;
     }
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: 'An error has occurred' });
   }
 };
@@ -70,7 +67,6 @@ const putSubscription = async (req = request, res = response) => {
       userId : req.body.userId,
       dayOfSubscription : req.body.dayOfSubscription,
       dayOfExpiration : req.body.dayOfExpiration,
-      typeOfSubscription : req.body.typeOfSubscription,
         _id: { $ne: subscriptionId },
     });
     if (subscriptionExist) {
