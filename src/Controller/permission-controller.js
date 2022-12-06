@@ -6,10 +6,9 @@ const getPermissions = async (req = request, res = response) => {
   try {
     const { role  } = req.query;
     let termsPermission = {};
-
     if (role) {
       const regex = new RegExp(role, 'i');
-      termsPermission.rol = { $regex: regex };
+      termsPermission.role = { $regex: regex };
     }
 
     const permissions = await Permission.find(termsPermission);

@@ -4,51 +4,36 @@ const PermissionSchema = Schema({
   role:{
     type: String,
   },
-  addUser: {
+  users: {
     type: Boolean,
   },
-  modifyUser: {
+  permissions: {
     type: Boolean,
   },
-  deleteUser: {
+  exercises: {
     type: Boolean,
   },
-  addHealth: {
+  routinesAction: {
     type: Boolean,
-  },  
-  modifyHealth: {
+  }, 
+  routinesView: {
     type: Boolean,
-  },
-  deleteHealth: {
-    type: Boolean,
-  },
-  addExcercises: {
+  },   
+  healthsAction: {
     type: Boolean,
   },
-  modifyExcercises: {
+  healthsView: {
     type: Boolean,
   },
-  deleteExcercises: {
+  subscriptions: {
     type: Boolean,
   },
-  addRoutines: {
+  lessons: {
     type: Boolean,
   },
-  modifyRoutines: {
+  workout: {
     type: Boolean,
-  },
-  deleteRoutines: {
-    type: Boolean,
-  },
-  addSuscription: {
-    type: Boolean,
-  },
-  modifySuscription: {
-    type: Boolean,
-  },
-  deleteSuscription: {
-    type: Boolean,
-  },
+  }
 });
 
 module.exports = model('Permission', PermissionSchema);

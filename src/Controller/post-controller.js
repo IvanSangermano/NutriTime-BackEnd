@@ -36,11 +36,10 @@ const postPost = async (req = request, res = response) => {
   try {
     const post = new Post(req.body);
     const postExist = await Post.findOne({
-        userId : req.body.userId,
-        date : req.body.date,
-        description : req.body.description,
-        likes : req.body.likes,
-        type : req.body.type
+      userId : req.body.userId,
+      date : req.body.date,
+      description : req.body.description,
+      type : req.body.type,
     });
     if (postExist) {
       res.status(400).json({

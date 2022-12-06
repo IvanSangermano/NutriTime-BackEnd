@@ -38,26 +38,18 @@ const postRoutine = async (req = request, res = response) => {
     const routine = new Routine(req.body);
     const routineExistUserId = await Routine.findOne({
       userId: req.body.userId,
-    });
-    const routineExistName = await Routine.findOne({
       name: req.body.name,
     });
-
     if (routineExistUserId) {
       res.status(400).json({
         error: 'Error, there is a routine with that user',
       });
     } else {
-      if (routineExistName) {
-        res.status(400).json({
-          error: 'Error, there is a routine with that name',
-        });
-      } else {
-        await routine.save()
-        res.status(201).json({ message: 'Routine added successfully', data: await Routine.findOne({
-          userId: req.body.userId,
-        }).populate("userId")});
-      }
+      await routine.save()
+      res.status(201).json({ message: 'Routine added successfully', data: await Routine.findOne({
+        userId: req.body.userId,
+        name: req.body.name,
+      }).populate("userId")});
     }
   } catch (error) {
     res.status(500).json({ error: 'An error has ocurred' });
