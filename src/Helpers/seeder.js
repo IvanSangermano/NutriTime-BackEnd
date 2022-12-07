@@ -11,21 +11,16 @@ const seeder = async () => {
 
   const permission = new Permission()
   permission.role = "admin";
-  permission.addUser= true;
-  permission.modifyUser = true;
-  permission.deleteUser = true;
-  permission.addHealth= true;
-  permission.modifyHealth = true;
-  permission.deleteHealth = true;
-  permission.addExcercises= true;
-  permission.modifyExcercises= true;
-  permission.deleteExcercises= true;
-  permission.addRoutines= true;
-  permission.modifyRoutines = true;
-  permission.deleteRoutines = true;
-  permission.addSuscription= true;
-  permission.modifySuscription = true;
-  permission.deleteSuscription= true;
+  permission.users = true;
+  permission.permissions = true;
+  permission.exercises = true;
+  permission.routinesAction = true;
+  permission.routinesView = true;
+  permission.healthsAction = true;
+  permission.healthsView = true;
+  permission.subscriptions = true;
+  permission.lessons = true;
+  permission.workou = true;
   await permission.save()
 
   const user = new User();
