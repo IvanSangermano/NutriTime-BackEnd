@@ -20,7 +20,7 @@ const seeder = async () => {
   permission.healthsView = true;
   permission.subscriptions = true;
   permission.lessons = true;
-  permission.workou = true;
+  permission.workout = true;
   await permission.save()
 
   const user = new User();
