@@ -1,4 +1,4 @@
-# GymTime
+# NutriTime
 
 ## What is about?
 
@@ -15,7 +15,7 @@ This project is a gym management application which combines the nutrition area w
 1. Clone the project
 
 ```sh
-git clone https://github.com/matiasvirgili/gymtime-backend
+git clone https://github.com/IvanSangermano/NutriTime-BackEnd
 ```
 
 2. Open folder and create and config your environment variables in a `.env` file, you can use the `.env.example` as a guid
